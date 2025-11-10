@@ -1,0 +1,69 @@
+db.createCollection("orders");
+
+db.orders.insertMany([
+  {
+    cust_id: "abc123",
+    ord_date: new Date("Oct 04, 2012"),
+    status: "A",
+    price: 25,
+    gender: "F",
+    rating: 1
+  },
+  {
+    cust_id: "def456",
+    ord_date: new Date("Nov 10, 2012"),
+    status: "A",
+    price: 30,
+    gender: "M",
+    rating: 3
+  },
+  {
+    cust_id: "ghi789",
+    ord_date: new Date("Dec 15, 2012"),
+    status: "A",
+    price: 45,
+    gender: "F",
+    rating: 5
+  },
+  {
+    cust_id: "jkl012",
+    ord_date: new Date("Jan 22, 2013"),
+    status: "A",
+    price: 20,
+    gender: "M",
+    rating: 2
+  },
+  {
+    cust_id: "mno345",
+    ord_date: new Date("Feb 28, 2013"),
+    status: "A",
+    price: 50,
+    gender: "F",
+    rating: 4
+  },
+  {
+    cust_id: "pqr678",
+    ord_date: new Date("Mar 12, 2013"),
+    status: "A",
+    price: 15,
+    gender: "M",
+    rating: 1
+  }
+]);
+ 
+
+db.Orders.mapReduce(function () {emit (this.gender, 1);}, function (key, values) {return 
+Array.sum(values);},{out:'gender_count'}); 
+
+db.orders.aggregate([ { $group: { _id: "$gender", } } ]); 
+           
+db.Orders.mapReduce(function () {emit (this.rating, 1);}, function (key, values) {return 
+Array.sum(values);},{out:'rating_count'}); 
+
+ 
+db.orders.aggregate([ { $group: { _id: "$rating", count: { $sum: 1 } } } ]); 
+
+
+ 
+
+

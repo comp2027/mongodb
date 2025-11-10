@@ -1,0 +1,27 @@
+db.createCollection("Book"); 
+
+db.Book.insert([ 
+  { 
+    book_isbn: "123456",     title: "DBMS",     publisher_name: "Tata MacGraw Hill", 
+    author: {       name: "Korth",       address: "123 Main St",       phone: { landline: "123-456-7890", mobile: "987-654-3210" } 
+    }, 
+    publisher_city: "Mumbai",     price: 29.99,     copies: 5 
+  } ]); 
+ 
+ 
+db.Book.find({ title: "DBMS" }, { title: 1, _id: 0 }); 
+
+db.Book.update( 
+  { publisher_name: "Tata MacGraw Hill" }, 
+  { $set: { copies: 10 } }, 
+  { multi: true } 
+); 
+
+db.Book.aggregate([ 
+  { $group: { _id: "$publisher_name", count: { $sum: 1 } } }, 
+  { $sort: { count: 1 } } 
+]); 
+
+db.Book.distinct("publisher_name", { "author.name": /^K/ }); 
+
+db.Book.remove({ "author.name": "Korth" }); 

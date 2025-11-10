@@ -1,0 +1,26 @@
+
+db.Rating.insertMany([
+  { movie_id: 123, user_id: 12, title: "Toy Story(1995)", status: "A" },
+  { movie_id: 234, user_id: 13, title: "ICE AGE(2005)", status: "UA" },
+  { movie_id: 345, user_id: 14, title: "Avatar(2009)", status: "A" },
+  { movie_id: 456, user_id: 15, title: "Titanic(1997)", status: "A" },
+  { movie_id: 567, user_id: 16, title: "The Dark Knight(2007)", status: "UA" }
+]);
+
+db.Rating.createIndex({ movie_id: -1 });
+
+db.Rating.find({ title: "ICE AGE(2005)" }).sort({ movie_id: -1 });
+
+db.Rating.reIndex();
+
+db.Rating.getIndexes();
+
+db.Rating.dropIndex("movie_id_-1");
+
+db.Rating.updateMany({}, { $set: { rating: 5 } });
+
+db.Rating.createIndex({ movie_id: 1, rating: -1 });
+
+db.Rating.createIndex({ movie_id: -1 });
+
+db.Rating.find({ title: "Avatar(2009)" });

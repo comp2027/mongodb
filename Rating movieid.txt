@@ -1,0 +1,26 @@
+db.createCollection("Rating");
+
+db.Rating.insertOne({ Movie_id:123, User_id:12, Title:"Avatar(2009)", Status:'A'}) 
+
+db.Rating.insertOne({ Movie_id:423, User_id:13, Title:"Titanic(1997)", Status:'UA'}) 
+
+db.Rating.insertOne({ Movie_id:234, User_id:14, Title:"The Dark Knight(2007)", Status:'A'}) 
+
+db.Rating.insertOne({ Movie_id:1234, User_id:15, Title:"The Gun(1986)", Status:'A'}) 
+
+db.Rating.insertOne({ Movie_id:254, User_id:16, Title:"Star Wars(1983)", Status:'UA'}) 
+
+db.Rating.find().pretty() 
+
+db.Rating.createIndex({ Movie_id: 1 }) 
+
+db.Rating.getIndexes() 
+
+db.Rating.find({}).sort({ Movie_id: -1 }) 
+
+db.Rating.createIndex({ Movie_id: -1 }) 
+
+db.Rating.find({ Title: "Avatar(2009)" }) 
+
+db.Rating.find({}).limit(5); 
+

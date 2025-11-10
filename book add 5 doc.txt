@@ -1,0 +1,23 @@
+db.createCollection("Book")
+
+test> db.Book.insertOne({book_isbn:"ISBN001",title:"The Great Gatsby",publisher_name:"Random House",author:{name:"F.Scott ",address:"123 Main St,Anytown",phone:{landline:"123-456-7890",mobile:"987-654-3210"}},publisher_city:"New York",price:20.99,copies:100})
+
+test> db.Book.insertOne({book_isbn:"ISBN002",title:"The Amazing Journey",publisher_name:"Pearson",author:{name:"Sayali S",address:"Jalgaon,Maharashtra",phone:{landline:"673-456-3545",mobile:"123-456-7890"}},publisher_city:"Pune",price:30,copies:50})
+
+test> db.Book.insertOne({book_isbn:"ISBN003",title:"Digital Circuits",publisher_name:"Techomax",author:{name:"Chinmayee K",address:"Banglore,Karnataka",phone:{landline:"883-456-3545",mobile:"222-456-7890"}},publisher_city:"Mumbai",price:400,copies:150})
+
+test> db.Book.insertOne({book_isbn:"ISBN004",title:"Winter Nights",publisher_name:"Magzine34",author:{name:"Ostwal P",address:"MG road 111,Gujarat",phone:{landline:"993-456-3545",mobile:"892-456-7890"}},publisher_city:"Surat",price:1000.80,copies:80})
+
+test> db.Book.insertOne({book_isbn:"ISBN005",title:"DarkWay 1990",publisher_name:"Horizon",author:{name:"Sharma MP",address:"Chandi Chowk,Delhi",phone:{landline:"234-456-3545",mobile:"787-456-7890"}},publisher_city:"Alahabad",price:500.40,copies:45})
+
+test> db.Book.find();
+
+
+db.Book.find({"publisher_city":"Pune"})
+
+db.Book.deleteOne({ title: /^D/ })
+
+db.Book.updateOne({ "publisher_name": "Pearson" }, { $set: { "publisher_city": "Pune" } })
+
+db.Book.findOne({ "publisher_name": "Pearson" })
+

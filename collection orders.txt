@@ -1,0 +1,15 @@
+db.createCollection("orders");
+
+db.orders.insertOne({cust_id:"sdf566",ord_date:new Date("Nov 11,2021"),status:'A',price:70,items:[{sku:"bbb",qty:45,price:2},{sku:"ccc",qty:50,price:9}]});
+
+db.orders.aggregate([{$group:{_id:null,total:{$sum:1}}}]);
+
+db.orders.aggregate([{$group:{_id:null,total_amount:{$sum:"$price"}}}]);
+
+db.orders.aggregate([{$group:{_id:"$cust_id",total_amount:{$sum:"$price"}}}]);
+
+db.orders.aggregate([{$group:{_id:"$cust_id",total_amount:{$sum:"$price"}}},{$sort:{total_amount:-1}}]);
+
+db.orders.aggregate([{$group:{_id:"$cust_id",total_amount:{$sum:"$price"}}},{$sort:{total_amount:1}}]);
+
+db.orders.aggregate([{$group:{_id:{cust_id:"$cust_id",ord_date:"$ord_date"},total_amount:{$sum:"$price"}}}]);

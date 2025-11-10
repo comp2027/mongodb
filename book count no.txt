@@ -1,0 +1,44 @@
+db.createCollection("Book")
+
+db.Book.insertOne({
+book_isbn: "ISBN001",
+title: "DBMS",
+publisher_name: "Tata MacGraw Hill",
+author: {
+name: "Author1",
+address: "Address1",
+phone: { landline: "111-222-3333", mobile: "444-555-6666" }
+},
+publisher_city: "Mumbai",
+price: 25.99,
+copies: 50
+})
+
+db.Book.insertOne({book_isbn:"ISBN002",title:"The Amazing Journey",publisher_name:"Pearson",author:{name:"Sayali S",address:"Jalgaon,Maharashtra",phone:{landline:"673-456-3545",mobile:"123-456-7890"}},publisher_city:"Pune",price:30,copies:50})
+
+db.Book.insertOne({book_isbn:"ISBN003",title:"Digital Circuits",publisher_name:"Techomax",author:{name:"Chinmayee K",address:"Banglore,Karnataka",phone:{landline:"883-456-3545",mobile:"222-456-7890"}},publisher_city:"Mumbai",price:400,copies:150})
+
+
+
+db.Book.countDocuments()
+
+db.Book.find().sort({ book_isbn: -1 })
+
+db.Book.find({ title: "DBMS" }, { title: 1, _id: 0 })
+
+db.Book.updateMany(
+{ publisher_name: "Tata MacGraw Hill" },
+{ $set: { copies: 10 } }
+)
+
+db.Book.aggregate([
+{
+$group: {
+_id: "$publisher_name",
+count: { $sum: 1 }
+}
+},
+{
+$sort: { count: 1 }
+}
+])

@@ -1,0 +1,63 @@
+ db.Teachers.insertMany([
+  { 
+    Tname: "John Doe", 
+    dno: 2, 
+    experience: 12, 
+    salary: 12000, 
+    date_of_joining: new Date("2010-01-15") 
+  },
+  { 
+    Tname: "Jane Smith", 
+    dno: 1, 
+    experience: 8, 
+    salary: 9500, 
+    date_of_joining: new Date("2015-03-10") 
+  },
+  { 
+    Tname: "Mike Johnson", 
+    dno: 2, 
+    experience: 15, 
+    salary: 15000, 
+    date_of_joining: new Date("2008-06-25") 
+  }
+]);
+
+ db.Students.insertMany([ 
+     { 
+         Sname: "Anil", 
+         roll_no: 1, 
+         class: "TE" 
+     }, 
+     { 
+         Sname: "Ravi", 
+         roll_no: 2, 
+         class: "SE" 
+     }, 
+     { 
+         Sname: "Priya", 
+         roll_no: 3, 
+         class: "TE" 
+     }, 
+     { 
+         Sname: "Sita", 
+         roll_no: 4, 
+         class: "BE" 
+     } 
+ ]); 
+
+
+
+
+ db.Teachers.find({ dno: 2, salary: { $gte: 10000 } }); 
+
+
+db.Students.find({ $or: [ { roll_no: 2 }, { Sname: "Anil" } ] }); 
+
+
+Book> db.Students.countDocuments({ class: "TE" }); 
+
+
+
+
+
+db.Teachers.updateMany( { experience: { $gt: 10 } }, { $mul: { salary: 1.05 } }  ); 
