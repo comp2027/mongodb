@@ -1,15 +1,60 @@
 db.createCollection("orders");
 
-db.orders.insertOne({cust_id:"sdf566",ord_date:new Date("Nov 11,2021"),status:'A',price:70,items:[{sku:"bbb",qty:45,price:2},{sku:"ccc",qty:50,price:9}]});
+db.ORDERS.insertMany([
+  {
+    cust_id: "abc123",
+    ord_date: new Date("2012-10-04"),
+    status: "A",
+    price: 50,
+    items: [
+      { sku: "xxx", qty: 25, price: 1 },
+      { sku: "yyy", qty: 25, price: 1 }
+    ]
+  },
+  {
+    cust_id: "def456",
+    ord_date: new Date("2012-10-05"),
+    status: "A",
+    price: 30,
+    items: [
+      { sku: "zzz", qty: 10, price: 3 }
+    ]
+  },
+  {
+    cust_id: "abc123",
+    ord_date: new Date("2012-10-06"),
+    status: "B",
+    price: 70,
+    items: [
+      { sku: "xxx", qty: 10, price: 2 }
+    ]
+  }
+]);
 
-db.orders.aggregate([{$group:{_id:null,total:{$sum:1}}}]);
+db.ORDERS.countDocuments();
 
-db.orders.aggregate([{$group:{_id:null,total_amount:{$sum:"$price"}}}]);
+db.ORDERS.aggregate([
+  { $group: { _id: null, totalPrice: { $sum: "$price" } } }
+]);
 
-db.orders.aggregate([{$group:{_id:"$cust_id",total_amount:{$sum:"$price"}}}]);
+db.ORDERS.aggregate([
+  { $group: { _id: "$cust_id", totalPrice: { $sum: "$price" } } }
+]);
 
-db.orders.aggregate([{$group:{_id:"$cust_id",total_amount:{$sum:"$price"}}},{$sort:{total_amount:-1}}]);
+db.ORDERS.aggregate([
+  { $group: { _id: "$cust_id", totalPrice: { $sum: "$price" } } },
+  { $sort: { totalPrice: 1 } }          
+]);
 
-db.orders.aggregate([{$group:{_id:"$cust_id",total_amount:{$sum:"$price"}}},{$sort:{total_amount:1}}]);
-
-db.orders.aggregate([{$group:{_id:{cust_id:"$cust_id",ord_date:"$ord_date"},total_amount:{$sum:"$price"}}}]);
+db.ORDERS.aggregate([
+  {
+    $group: {
+      _id: {
+        cust_id: "$cust_id",
+        ord_date: { $dateToString: { format: "%Y-%m-%d", date: "$ord_date" } }
+      },
+      totalPrice: { $sum: "$price" }
+    }
+  },
+  { $sort: { "_id.cust_id": 1, "_id.ord_date": 1 } }   // optional sorting
+]);
