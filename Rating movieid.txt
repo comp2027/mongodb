@@ -1,26 +1,48 @@
+// 1. Create collection
 db.createCollection("Rating");
 
-db.Rating.insertOne({ Movie_id:123, User_id:12, Title:"Avatar(2009)", Status:'A'}) 
+// 2. Insert 5 documents (correct fields + Toy Story included)
+db.Rating.insertMany([
+  { movie_id: 123,  user_id: 12, title: "Toy Story(1995)",        status: "A" },
+  { movie_id: 423,  user_id: 13, title: "Titanic(1997)",          status: "UA" },
+  { movie_id: 234,  user_id: 14, title: "The Dark Knight(2007)",  status: "A" },
+  { movie_id: 1234, user_id: 15, title: "The Gun(1986)",          status: "A" },
+  { movie_id: 254,  user_id: 16, title: "Star Wars(1983)",        status: "UA" }
+]);
 
-db.Rating.insertOne({ Movie_id:423, User_id:13, Title:"Titanic(1997)", Status:'UA'}) 
+// Show documents
+db.Rating.find().pretty();
 
-db.Rating.insertOne({ Movie_id:234, User_id:14, Title:"The Dark Knight(2007)", Status:'A'}) 
 
-db.Rating.insertOne({ Movie_id:1234, User_id:15, Title:"The Gun(1986)", Status:'A'}) 
+// --------------------------------------------------------
+// a) Create ascending index on movie_id + verify plan
+// --------------------------------------------------------
+db.Rating.createIndex({ movie_id: 1 });
 
-db.Rating.insertOne({ Movie_id:254, User_id:16, Title:"Star Wars(1983)", Status:'UA'}) 
+db.Rating.find({ movie_id: 123 }).explain("executionStats");
 
-db.Rating.find().pretty() 
 
-db.Rating.createIndex({ Movie_id: 1 }) 
+// --------------------------------------------------------
+// b) Show all indexes created
+// --------------------------------------------------------
+db.Rating.getIndexes();
 
-db.Rating.getIndexes() 
 
-db.Rating.find({}).sort({ Movie_id: -1 }) 
+// --------------------------------------------------------
+// c) Sort movie_id in descending order
+// --------------------------------------------------------
+db.Rating.find().sort({ movie_id: -1 });
 
-db.Rating.createIndex({ Movie_id: -1 }) 
 
-db.Rating.find({ Title: "Avatar(2009)" }) 
+// --------------------------------------------------------
+// d) Create descending index + get Toy Story + verify plan
+// --------------------------------------------------------
+db.Rating.createIndex({ movie_id: -1 });
 
-db.Rating.find({}).limit(5); 
+db.Rating.find({ title: "Toy Story(1995)" }).explain("executionStats");
 
+
+// --------------------------------------------------------
+// e) Limit number of items in above query
+// --------------------------------------------------------
+db.Rating.find({ title: "Toy Story(1995)" }).limit(1);
