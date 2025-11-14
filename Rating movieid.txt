@@ -1,8 +1,6 @@
+db.createCollection("rating");
 
-db.createCollection("Rating");
-
-
-db.Rating.insertMany([
+db.rating.insertMany([
   { movie_id: 123,  user_id: 12, title: "Toy Story(1995)",        status: "A" },
   { movie_id: 423,  user_id: 13, title: "Titanic(1997)",          status: "UA" },
   { movie_id: 234,  user_id: 14, title: "The Dark Knight(2007)",  status: "A" },
@@ -10,21 +8,18 @@ db.Rating.insertMany([
   { movie_id: 254,  user_id: 16, title: "Star Wars(1983)",        status: "UA" }
 ]);
 
+db.rating.find().pretty();
 
-db.Rating.find().pretty();
+db.rating.createIndex({ movie_id: 1 });
 
+db.rating.find({ movie_id: 123 }).explain();
 
-db.Rating.createIndex({ movie_id: 1 });
+db.rating.getIndexes();
 
-db.Rating.find({ movie_id: 123 }).explain("executionStats");
+db.rating.find().sort({ movie_id: -1 });
 
-db.Rating.getIndexes();
+db.rating.createIndex({ movie_id: -1 });
 
-db.Rating.find().sort({ movie_id: -1 });
+db.rating.find({ title: "Toy Story(1995)" }).explain();
 
-db.Rating.createIndex({ movie_id: -1 });
-
-db.Rating.find({ title: "Toy Story(1995)" }).explain("executionStats");
-
-db.Rating.find({ title: "Toy Story(1995)" }).limit(1);
-
+db.rating.find().limit(5);
