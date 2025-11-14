@@ -1,7 +1,7 @@
-// 1. Create collection
+
 db.createCollection("Rating");
 
-// 2. Insert 5 documents (correct fields + Toy Story included)
+
 db.Rating.insertMany([
   { movie_id: 123,  user_id: 12, title: "Toy Story(1995)",        status: "A" },
   { movie_id: 423,  user_id: 13, title: "Titanic(1997)",          status: "UA" },
@@ -10,39 +10,21 @@ db.Rating.insertMany([
   { movie_id: 254,  user_id: 16, title: "Star Wars(1983)",        status: "UA" }
 ]);
 
-// Show documents
+
 db.Rating.find().pretty();
 
 
-// --------------------------------------------------------
-// a) Create ascending index on movie_id + verify plan
-// --------------------------------------------------------
 db.Rating.createIndex({ movie_id: 1 });
 
 db.Rating.find({ movie_id: 123 }).explain("executionStats");
 
-
-// --------------------------------------------------------
-// b) Show all indexes created
-// --------------------------------------------------------
 db.Rating.getIndexes();
 
-
-// --------------------------------------------------------
-// c) Sort movie_id in descending order
-// --------------------------------------------------------
 db.Rating.find().sort({ movie_id: -1 });
 
-
-// --------------------------------------------------------
-// d) Create descending index + get Toy Story + verify plan
-// --------------------------------------------------------
 db.Rating.createIndex({ movie_id: -1 });
 
 db.Rating.find({ title: "Toy Story(1995)" }).explain("executionStats");
 
-
-// --------------------------------------------------------
-// e) Limit number of items in above query
-// --------------------------------------------------------
 db.Rating.find({ title: "Toy Story(1995)" }).limit(1);
+
